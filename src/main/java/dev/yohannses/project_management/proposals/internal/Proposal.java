@@ -38,6 +38,8 @@ class Proposal {
     @UpdateTimestamp
     LocalDateTime updatedAt;
 
+    UUID projectId;
+
     @OneToMany(mappedBy = "proposal", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<MileStone> milestones;
 

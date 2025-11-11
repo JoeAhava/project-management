@@ -9,7 +9,7 @@ import org.springframework.modulith.docs.Documenter;
 class ProjectManagementApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void test_modularity() {
         ApplicationModules modules = ApplicationModules.of(ProjectManagementApplication.class);
         modules.verify();
         new Documenter(modules).writeDocumentation().writeIndividualModulesAsPlantUml();

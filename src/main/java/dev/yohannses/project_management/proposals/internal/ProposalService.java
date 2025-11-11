@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 class ProposalService {
 
-    final Repository repository;
+    final ProposalRepository repository;
     final ApplicationEventPublisher applicationEventPublisher;
 
-    public ProposalService(Repository repository, ApplicationEventPublisher applicationEventPublisher) {
+    public ProposalService(ProposalRepository repository, ApplicationEventPublisher applicationEventPublisher) {
         this.repository = repository;
         this.applicationEventPublisher = applicationEventPublisher;
     }

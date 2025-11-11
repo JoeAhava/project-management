@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS tbl_proposals (
   title VARCHAR(255),
   short_description TEXT,
   detailed_description TEXT,
+  project_id UUID,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
   total_payment_amount NUMERIC(19, 2),
@@ -71,3 +72,33 @@ ALTER TABLE tbl_milestones
   USING payment_currency::varchar;
 
 -- End of migration
+
+
+-- Enable UUID generation
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+-- Drop existing type if needed (optional, uncomment for local dev)
+-- DROP TYPE IF EXISTS project_status CASCADE;
+
+-- Create enum type for project status
+CREATE TYPE project_status AS ENUM (
+    'ACTIVE',
+    'APPROVED',
+    'PENDING_APPROVAL',
+    'PENDING_COMPLETION_APPROVAL',
+    'COMPLETION_APPROVED'
+);
+
+-- Drop table if it exists (optional, uncomment for local dev)
+-- DROP TABLE IF EXISTS tbl_projects;
+
+-- Create projects table
+CREATE TABLE tbl_projects (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title VARCHAR(255),
+    description TEXT,
+    detailed_description TEXT,
+    status project_status NOT NULL DEFAULT 'PENDING_APPROVAL',
+    proposal_id UUID UNIQUE,
+    CONSTRAINT unique_project_proposal_id UNIQUE (proposal_id)
+);
